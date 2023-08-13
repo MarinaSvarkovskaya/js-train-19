@@ -21,7 +21,7 @@ const Book = {
   title: `Загальна Книга`,
   author: `Анонім`,
   pages: 0,
-  read() {
+  read: function () {
     console.log(`Ви читаєте ${this.title} від ${this.author}`);
   },
 };
@@ -33,9 +33,8 @@ console.log("Завдання: 1 ==============================");
 
 // Викликаємо функцію read об'єкту Book
 console.log(Book);
-const a = Object.create(Book);
-console.log(a);
-console.log(a.read());
+console.log(Object.getPrototypeOf(Book));
+console.log(Book.read());
 
 // 2. Наслідування від базового об'єкту Book
 
@@ -61,7 +60,7 @@ console.log("Завдання: 2 ==============================");
 // Виводимо в консоль прототип Об'єкту: Novel
 
 console.log(Novel);
-console.log(Object.create(Novel));
+console.log(Object.getPrototypeOf(Novel));
 
 // 3. Створення нового об'єкту та зміна його прототипу
 
@@ -91,7 +90,7 @@ console.log("Завдання: 3 ==============================");
 console.log(Biography);
 
 // Перевіримо чи являється Novel прототипом Biography та виведемо в консоль
-console.log(Object.getPrototypeOf(Biography) === Novel);
+console.log(Novel.isPrototypeOf(Biography));
 
 // 4. Інкапсуляція властивості та додання властивості
 /*
@@ -117,24 +116,25 @@ console.log(Object.getPrototypeOf(Biography) === Novel);
 // | title       | "Фізика 101"         |
 // | author      | "Альберт Ейнштейн"   |
 // | info        | написана в 1915 році |
-// let ScienceBook = Object.create(Book);
-// Object.defineProperty(ScienceBook, `info`, {
-//   value: `написана в 1915 році`,
-//   writable: false,
-// });
-// // ScienceBook.info = `нова назва книги`;
-// Object.defineProperty(ScienceBook, `info`, {
-//   set(value) {
-//     this.info = `написана в 1915 році`;
-//   },
-//   get() {
-//     return `Про книгу ${this.title}, ${this.info}`;
-//   },
-// });
-// ScienceBook.title = "Фізика 101";
-// ScienceBook.author = "Альберт Ейнштейн";
-// console.log(ScienceBook.getInfo);
-// console.log(ScienceBook);
+let ScienceBook = Object.create(Book);
+Object.defineProperty(ScienceBook, `info`, {
+  value: `написана в 1915 році`,
+  writable: false,
+});
+ScienceBook.info = `нова назва книги для тесту`;
+
+Object.defineProperty(ScienceBook, `info`, {
+  set(value) {
+    this.info = `написана в 1915 році`;
+  },
+  get() {
+    return `Про книгу ${this.title}, ${this.info}`;
+  },
+});
+ScienceBook.title = "Фізика 101";
+ScienceBook.author = "Альберт Ейнштейн";
+console.log(ScienceBook.getInfo);
+console.log(ScienceBook);
 
 console.log("Завдання: 4 ==============================");
 // Виводимо в консоль властивість info
